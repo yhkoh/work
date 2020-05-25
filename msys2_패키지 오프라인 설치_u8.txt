@@ -1,0 +1,257 @@
+﻿$ sudo pacman -Syu ; 시스템의 모든 패키지들을 업그레이드 (full system upgrade)
+pacman은 패키지 데이터베이스를 업데이트하고 업데이트가 필요한 패키지를 찾아서 사용자가 업그레이드를 할지 말지 물어봅니다.
+
+$ sudo pacman -Ss [검색할 단어] ; 추가적으로 패키지를 설치해야 할 패키를 이름을 알아야 할 때 설치되었거나 설치가능한 패키지를 검색
+이미 설치가 되어있다면 패키지 명 마지막 부분에 [installed]가 표시됨
+사실 이 검색을 사용하여도 원하던 패키지를 찾기 어렵기 때문에 인터넷에 검색하여 패키지 명을 알아내는게 대부분입니다...
+
+$ sudo pacman -Qs [검색할 단어] ; 설치된 패키지 중에서 검색을 하고싶다면 -Qs 옵션을 
+
+$ sudo pacman -Qi 패키지명 ; 패키지의 자세한 정보(버전, 의존성, 용량, 만들어진 날짜 등등)를 알고싶다면 -Qi 옵션을
+
+$ sudo pacman -S 패키지명 ... ; 패키지 설치를 위한 옵션은 -S. 옵션 뒤에 패키지를 여러 개 나열하면 한번에 설치가 가능
+
+$ sudo pacman -Rs 패키지명 ... ; 패키지 삭제를 위한 옵션은 -R. 다만 이 옵션만으로는 입력한 패키지만 삭제하기 때문에 -s 옵션을 추가로 사용하여 다른 패키지에서 필요로 하지 않는 의존성이 있는 패키지들도 함께 삭제하는 것이 일반적입니다.
+
+$ pacman -Ss [검색할 단어]
+
+https://packages.msys2.org/base
+http://repo.msys2.org/msys/x86_64/
+
+/var/cache/pacman/pkg 로 다운로드 받은 패키지들을 복사
+# pacman -U /var/cache/pacman/pkg/tree-1.8.0-1-x86_64.pkg.tar.xz
+
+
+참고로 저장소에서 제공하는 패키지는 무엇이 잇는지는 아래의 싸이트에서 검색..
+https://packages.msys2.org/search?t=binpkg
+
+만약 옛 버전을 설치해야 하는 경우는 pacman은 버전을 지정하여 설치를 할 수 없다.
+아래의 페이지에서 옛 버전을 받아서..
+http://repo.msys2.org/mingw/x86_64/
+
+다음과 같이 설치한다.
+# pacman -U /var/cache/pacman/pkg/tree-1.8.0-1-x86_64.pkg.tar.xz
+이미 상위 버전이 설치되어 있는 경우 자동으로 다운그레이드를 함.. 굿!!
+
+참고로 설치된 패키지의 정보들은 /var/lib/pacman/local 폴더에 위치해 있음.
+또.. 다운받아진 원본 패키지들은 /var/cache/pacman/pkg 에 있음.
+
+Take all the *.pkg.tar.gz files back home, put them in /var/cache/pacman/pkg and finally run 
+
+This is a simple way to install a package you have downloaded: 
+# pacman -U /root/Download/packagename.tar.gz
+
+This is how to install several packages you have installed into a directory 
+# pacman -U /root/Download/*.tar.gz
+
+----------------------------------------
+Finding a package
+$ pacman -Ss openjp    ; <name or part of the name of the package>
+
+Installing a package
+pacman -S <name of the package>
+
+Uninstalling a package
+pacman -R <name of the package>
+
+Installing a specific version of a package or a stand-alone packages
+pacman -U <packagefile.tar.xz>
+
+Listing the content of a package
+$ pacman -Ql mingw-w64-x86_64-pugixml    ; <name of the package>
+
+
+Finding dependencies of a package
+$ pactree mingw-w64-x86_64-gettext
+$ pacman -Qi mingw-w64-x86_64-gettext
+
+
+Finding out which package a file belongs to
+pacman -Qo <full file path>
+
+Finding which package will install the file you need
+To find an exact match, call pacman -F <filename> (don't include the path in the filename). To find a substring match, call pacman -Fx <filename>.
+pacman -Fy to update your package database.
+
+-------------------------------------------------
+how to download pacman packages for offline installation
+
+Using this code will download the package without installing it
+# pacman -Sw b43-fwcutter
+
+
+and you can install it with
+# pacman –U b43-fwcutter
+# pacman –U /root/Download/packagename.tar.gz
+# pacman –U /root/Download/*.tar.gz
+
+--------------------
+On 23/07/12 15:06, Earnie Boyd wrote:
+>> How I can I use those downloaded files to install gcc and g + + it
+>> offline,  in Windows XP?
+>
+> Put the downloaded files in the cached packages directory.
+> /mingw/var/cache/mingw-get/packages
+
+Or, more accurately, in %MINGW_GET_ROOT%/var/cache/mingw-get/packages,
+where %MINGW_GET_ROOT% represents the root of your mingw-get directory
+hierarchy -- default C:/MinGW.  (And no, there is no %MINGW_GET_ROOT%
+environment variable defined, unless *you* have defined it).
+
+
+
+
+리눅스 shell
+https://coding-factory.tistory.com/507?category=760718
+
+현재 설치되어 있는 쉘은 /etc/shells 파일에 있습니다. 위와 같이 cat /etc/shells 라는 명령어를 입력해주면 현재 사용할 수 있는 쉘들의 목록을 확인할 수 있습니다.
+
+현재 사용중인 쉘의 종류를 알아보는 가장 간편한 방법은 프로세스 정보를 보는 방법입니다. grep [사용자 이름] / etc /passwd 라는 명령어를 입력하면 현재 사용하고 있는 쉘을 볼 수 있습니다. 
+
+쉘 스크립트는 파일안에 스크립트를 작성 후(#cat test.sh 엔터) 실행하는 방식을 사용하며 파일의 가장 위 첫라인은 "#!/bin/bash"로 시작됩니다. 쉘스크립트 파일은 실행권한을 가지고 있어야 실행시킬 수 있습니다.
+
+첫줄에 #!/bin/bash 을 주고 그 뒤에 echo "hello world"라고 입력을 합니다. echo 명령어는 쉘 프로그래밍 언어에서 출력문입니다. "hello world"라는 문구를 출력하겠다는 의미입니다. 그리고 마지막 줄에 exit 0 을 입력한 뒤 esc를 눌러 vim이 비활성화 되면 맨 밑에줄에 :wq라는 명령어를 입력하여 저장 후 vim을 종료합니다.
+
+chmod 755 test.sh 을 입력하여 test shell에 실행권한을 부여합니다. 그런 뒤 다시 ls -l 명령어를 입력하면 실행권한이 잘 부여된것을 확인할 수 있습니다.
+
+실행방법은 3가지 방법이 있습니다.
+./test
+sh test
+bash
+
+확장자는 .sh를 사용
+
+vim test.sh
+#!/bin/bash   : 쉘스크립트의 시작이라는 것을 알려주는 것임. # 주석표시
+
+변수를 사용하기 위해서는 “=” 등호를 사용하며 = 기초 앞뒤로 공백이 없이 입력해야 함
+
+pwd / ls / cd / mkdir / find / cp / mv / more / ps / kill / sudo / passwd
+
+Redirection ; 입출력 방향 지정 
+리다이렉션을 통해 파일로부터 입력받을 수 있고, 파일로 출력할 수 있다. 
+command > file ; 표준출력을 파일에 덮어쓰기, 파일에 추가하기(>>)
+command < file ; 파일로부터 입력
+
+파이프 | ; 프로세스의 연결
+각 명령을 별도로 입력하고 결과를 중간 파일에 저장하는 대신, 파이프(|)를 사용하여 명령 순서를 연결할 수 있습니다.
+
+-exec 외부명령어 {} \; 
+앞선 명령어의 결과를 {}로 입력받아 “\;” 라는 표기자를 만날 때까지 읽고 외부명령어를 매번 실행
+$ find /home/test -type f -size +5M -exec ls -l {} \;
+=>  $ ls -l  /home/test/a.txt
+    $ ls -l  /home/test/b.txt
+    $ ls -l  /home/test/c.txt
+
+'+' 옵션은 인자를 연속으로 입력해서 외부명령어를 한번으로 실행하게끔 해줌
+$ find /home/test -type f -size +5M -exec chmod 755 {} +
+=>  $ chmod 755 /home/test/a.txt /home/test/b.txt /home/test/c.txt
+
+xargs ; 앞선 명령어의 결과를 인자{}로 받아 커맨드를 실행함
+파이프한 표준입력을 리스트형태로 만들고 다음 명령어의 인자로 넘겨주는 명령어.
+
+exec 커맨드의 + 옵션과 유사하다.
+$ find /home/test -type f | xargs -l{} cp {} /home/test/backup
+-l 옵션으로 txt 파일을 backup 폴더로 복사 (권장)
+
+# find . -type f -name "*.java" -exec tar -cvf myfile.tar {} \;
+최종 파일 하나만 myfile.tar로 압축
+
+# find . -type f -name "*.java" -exec tar -cvf myfile.tar {} +
+# find . -type f -name "*.java" | xargs tar -cvf myfile.tar {}
+현재 폴더에서 모든 java파일을 찾아 myfile.tar로 압축
+
+셸 명령 구문 분석                                                      
+
+플래그 ; 명령이 적절하게 실행되려면 적절한 방식으로 셸에 명령을 제시해야 합니다. 명령이름 자체가 행에 있는 첫 번째 항목이어야 합니다. 그 뒤에 임의의 플래그와 매개변수가 뒤따릅니다. 
+플래그는(때로는 옵션이라고 부름)는 명령의 작동을 수정하는 하이픈(-)이 앞에 오는 단일문자입니다. 
+예를 들어, 나열 명령인 ls는 단순하게 현재 디렉토리에 있는 파일의 이름을 알파벳순으로 나열합니다. 다양한 플래그를 추가하여 여러가지 방법으로 디렉토리의 내용을 나열할 수 있습니다. 'long' 플래그인 -l을 사용하여 파일과 모든 속성을 나열할 수 있습니다. 이 명령은 다음 형식을 갖습니다. ls -l
+여기서 -l 이 플래그입니다. 둘 이상의 플래그를 사용하려는 경우, ls -lF와 같이 단순히 플래그를 함께 문자열로 입력할 수 있습니다.
+
+매개변수 ; 플래그는 명령에서 임의의 다른 매개변수 이전에 제공되어야 합니다. 
+매개변수는 IFS 환경변수에서 정의되는 문자 중 하나에 의해 분리되는 문자열입니다. 
+IFS에 있는 디폴트 문자열은 공백, 탭 및 개행 문자입니다. 매개변수 사이에 임의 숫자의 필드 분리자 문자를 배치할 수 있습니다. 
+매개변수는 대개 파일명이나 명령에 어떤 기능을 수행할 것을 지시하는 문자열입니다. 매개변수에 삽입된 공백이 들어 있으면 셸이 확장하지 못하도록 따옴표로 묶어야 합니다. 
+다음 명령줄에는 두 매개변수가 들어 있습니다 셸은 York이라는 파일에서 단어 New를 찾으려고 합니다.
+grep New York  의도가 표준 입력에서 문자열 'New York'을 찾는 것이라면 명령을 다음과 같이 입력해야 합니다.   grep "New York"
+이 경우에, 문자열 'New York' 이 하나의 매개변수로서 grep 명령에 전달됩니다.
+
+
+-------------------------------
+tree
+옵션없이 단독으로 실행하면 현재 폴더내의 서브폴더와 파일 구조와 개수를 보여줌
+
+
+# tree -df ; -d옵션으로 파일을 제외한 서브폴더만. -df옵션은 서브폴더의 전체경로까지
+# tree -o drec-tree.txt ; 실행결과를 -o옵션을 통해 저장
+
+# tree -f -P gray* ; -P플래그와 함께 검색할 패턴을 지정하면 매칭되는 파일만 보여줌
+# tree -f -L 2 ; -L 옵션을 통해 depth가 2인 폴더까지만 보여 줌
+
+-----------------------------
+man(ual)
+chmod 명령의 기능이 생각이 나지 않을 때 터미널에 man chmod를 입력하면 명령에 대한 정보가 표시된다. 화살표키 또는 PgUp/PgDn키를 사용해서 man 페이지를 위아래로 스크롤할 수 있다. 다 읽고 나면 Q를 눌러 나오면 된다.
+
+
+라이브 드라이브를 통해 플래시 드라이브에 리눅스 배포판의 부팅 가능한 시스템을 설치한 후 하드 드라이브 대신에 해당 매체로부터 부팅하도록 PC를 구성할 수 있다.
+
+리눅스는 마이크로소프트 오피스의 경쟁 제품(리브레 오피스(Libre Office))부터 포토샵의 대안(GIMP)과 미디어 재생 프로그램(VLC)까지 자주 사용하는 윈도우 소프트웨어의 모든 훌륭한 대안을 갖추고 있다.
+밸브(Valve)의 리눅스 스팀 머신(Steam Machines)이 출시되면서 많은 일류 비디오 게임이 리눅스를 지원하고 있다.
+
+크로미움(Chromium) 대부분의 리눅스 배포판은 기본 브라우저로 모질라 파이어폭스를 포함하고 있지만, 크로미움도 좋은 브라우저다. 크로미움은 구글 크롬의 완전한 오픈 소스 버전으로, 구글 계정과의 동기화를 포함해서 크롬의 모든 기능을 빠짐없이 사용할 수 있다. 크로미움은 각 탭을 개별적으로 실행하는 멀티 프로세스 아키텍처를 채용해 응답성이 뛰어나다. 많은 웹 페이지가 동시에 열린 상태에서 어느 웹 페이지 하나가 멈추더라도 브라우저 전체가 다운되는 일이 없다. 
+
+리브레오피스보다 WPS Office가 MS Office와 호환성이 훨씬 높기 때문입니다. 그리고 리브레오피스인 경우 리눅스에서 작성한 문서가 윈도우환경에서는 다르게 나오는 경우가 꽤 있습니다.
+
+썬더버드(Thunderbird)와 라이트닝(Lightning) 모질라 썬더버드는 일반적인 리눅스 사용자를 위한 이상적인 데스크톱 이메일 프로그램이다. 개발이 다소 정체되고 있지만 지금 상태로도 필요한 기능은 모두 제공한다. 모질라 공식 라이트닝 확장 프로그램을 함께 사용하면 썬더버드를 이메일, 일정 관리, 작업 관리 애플리케이션으로 활용할 수 있다. (썬더버드에서 애드온(Add-on) 창을 열고 라이트닝을 검색해 설치하기만 하면 된다.) 썬더버드+라이트닝은 기본적인 데스크톱 업무용 프로그램으로 마이크로소프트 오피스를 대체하기에 부족함이 없다. 일정과 작업 내역을 컴퓨터에만 저장할 수도 있고 구글 캘린더와 같은 온라인 서비스와 동기화할 수도 있다. 
+
+VLC 미디어 플레이어의 스위스 군용 칼로 통하는 VLC는 리눅스에서도 뛰어난 기능을 자랑한다. 데스크톱 환경에 기본적으로 포함되는 간단한 비디오 플레이어로 충분할 수도 있다. 그러나 이런 플레이어를 사용하려면 코덱을 따로 설치해줘야 하고, 그렇게 해도 VLC만큼 다양한 기능을 이용할 수 없다. VLC를 사용하면 코덱을 추가로 설치할 필요 없이 거의 모든 파일을 재생할 수 있다. 또한, 단순한 미디어 플레이어에서는 찾아볼 수 없는 유용한 기능들이 가득 들어 있다. 
+
+쇼트웰(Shotwell) 디지털 사진 관리를 위해 필요한 애플리케이션이다. 쇼트웰은 연결된 카메라에서 자동으로 사진을 가져와서 데스크톱에서 사진 라이브러리를 관리할 수 있게 해준다. 또한, 사진 보정과 편집을 위한 사용하기 쉬운 편집 도구도 함께 제공한다. 단순하지만 필요한 기능은 다 있다. 페이스북, 플리커, 구글+, 유튜브(비디오)와 같은 온라인 서비스에 사진과 비디오를 게시하는 기능도 지원한다. 이 애플리케이션은 GNOME에 최적화되어 있으므로 KDE 데스크톱을 사용한다면 디지캠(digiKam)과 같은 애플리케이션이 더 나을 수도 있다. 이 기사에 포함된 다른 모든 애플리케이션은 윈도우에서도 실행되지만 유일하게 이 애플리케이션은 리눅스 데스크톱 전용이다. 
+
+김프GIMP 이미지 보정 프로그램인 김프(GIMP)은 오픈소스 커뮤니티의 포토샵으로 통한다. 간단한 이미지 편집과 보정이 목적이라면 쇼트웰과 같은 애플리케이션으로 충분하지만, 본격적인 이미지 편집기가 필요하다면 김프가 답이다. 김프의 인터페이스는 오래전부터 복잡하고 어려운 것으로 정평이 나 있지만 사실 초보자가 처음 접할 때 막막함을 느끼기는 포토샵도 마찬가지다. 김프는 오랜 시간을 거치며 개선되어 지금은 산만한 환경을 정리하는 데 도움이 되는 단일 창 모드를 제공한다. 김프에서 창(Windows) > 단일 창 모드(Single-Window Mode)를 클릭하면 된다. 이미지 편집과 관련된 작업을 하려면 GIMP로 충분하다. 다만 사용하는 방법을 배워야 한다. 
+
+클레멘타인(Clementine)  리눅스 데스크톱에서 사용할 수 있는 음악플레이어는 정말로 많다. 현재 리듬박스(Rhythmbox), 밴쉬(Banshee), 아마록(Amarok)가 가장 많이 사용되고 있는 음악플레이어다. 그러나 필자는 클레멘타인을 추천해보고자 한다. 아마록의 오리지널 버전에서 영감을 받은 이 애플리케이션은 데스크톱에 저장된 음악라이브러리를 들을 수 있는 다양한 기능으로 무장했으며, 온라인 라디오서비스, 팟캐스트를 지원한다. 또한, 모바일 기기와 파일을 손쉽게 옮길 수 있는 기능도 제공한다. 
+
+델류즈(Deluge) 유토렌트(uTorrent)는 리눅스 버전으로 나오지 않았지만 아쉬워할 필요는 없다. 델류즈는 가장 뛰어난 오픈소스 비트토렌트 클라이언트 중 하나다. 강력한 플러그인 시스템, 그리고 유토렌트 사용자에게 익숙하게 느껴질 인터페이스를 제공한다. 트랜스미션(Transmission)도 괜찮은 비트토렌트 애플리케이션으로, 리눅스 시스템에 기본적으로 설치된 경우도 많다. 간소한 인터페이스가 장점이지만 델류즈가 제공하는 만큼의 다양하고 강력한 기능은 없다. 필요한 기능이나 선호하는 인터페이스의 문제일 뿐 두 가지 모두 뛰어난 프로그램이다.
+
+
+원문보기: 
+http://www.itworld.co.kr/slideshow/93053#csidxbb721996797ae4da8b54759a3913bd3 
+-----------------------------------
+msys2 – gcc/g++ 업데이트 및 설치
+2019-07-102019-07-11 In-Hak Min	
+  
+msys2 를 처음 설치하고 아래와 같이 기본 gcc/g++ 컴파일러와 필요한 유용한 라이브러리들을 설치한다.
+
+pacman -Syu 
+
+pacman -S base-devel  ; S install
+pacman -S gcc 
+pacman -S development 
+pacman -S compression 
+pacman -S mingw-w64-i686-toolchain mingw-w64-x86_64-toolchain 
+
+pacman -Sy git 
+pacman -Sy cmake 
+
+아래와 같이 설치된 컴파일러를 확인한다.
+
+$ pacman -Ss gcc ; s search
+mingw32/mingw-w64-i686-gcc 9.1.0-3 (mingw-w64-i686-toolchain) 
+GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 
+mingw32/mingw-w64-i686-gcc-ada 9.1.0-3 (mingw-w64-i686-toolchain) 
+GNU Compiler Collection (Ada) for MinGW-w64 
+... 
+mingw64/mingw-w64-x86_64-gcc 9.1.0-3 (mingw-w64-x86_64-toolchain) [설치함] 
+GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 
+mingw64/mingw-w64-x86_64-gcc-ada 9.1.0-3 (mingw-w64-x86_64-toolchain) [설치함] 
+GNU Compiler Collection (Ada) for MinGW-w64 
+... 
+msys/mingw-w64-cross-gcc 9.1.0-1 (mingw-w64-cross-toolchain mingw-w64-cross) 
+Cross GCC for the MinGW-w64 
+
+내가 자주 사용하는 개발 패키지들도 설치한다.
+
+# dynamic 버전이 필요하면 pacman -Sy mingw-w64-i686-qt5 mingw-w64-x86_64-qt5 
+
+# static 버전이 필요하면 pacman -Sy mingw-w64-i686-qt5-static mingw-w64-x86_64-qt5-static 
